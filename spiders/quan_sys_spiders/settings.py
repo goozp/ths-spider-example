@@ -106,7 +106,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # MONGO_URI = 'mongodb://user:password@host/db'
-MONGO_URI = 'mongodb://uic:413413413@qs-mongo/stock'
+MONGO_URI = 'mongodb://user:userpwd@qs-mongo/stock'
 MONGO_DATABASE_STOCK = 'stock'
 
 # Redis数据库地址
