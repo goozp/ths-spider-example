@@ -1,0 +1,5 @@
+requests
+scrapy
+pymongo
+schedule
+PyExecJS

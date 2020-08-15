@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  db:
+    container_name: qs-mongo
+    build: 
+      context: ./mongodb
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - TZ=${WORKSPACE_TIMEZONE}
+    ports:
+      - "27017:27017"
+    volumes:
+      # - ./data/mongo:/data/db
+      - ./mongodb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+      - ./log/mongodb/:/var/log/mongodb/
+      - mongodata:/data/db
+    networks:
+      - spider
+
+  spider:
+    container_name: qs-spider
+    build: 
+      context: ./spiders
+    depends_on:
+      - db
+    environment:
+      - TZ=${WORKSPACE_TIMEZONE}
+    ports:
+      - "80:80"
+    volumes:
+      - ./quan-sys-spiders/quan_sys_spiders/settings.py:/code/quan_sys_spiders/settings.py
+      # - ./quan-sys-spiders/:/code/
+    restart: always
+    networks:
+      - spider
+
+networks:
+  spider:
+
+volumes:
+  mongodata:
